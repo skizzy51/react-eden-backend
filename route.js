@@ -12,7 +12,6 @@ const {
     CreateCategory,
     GetCategories,
     CreateNormalTabs,
-    GetAllTabsByType,
     CreateSplitProductTab,
     CreateSplitCategoryTab,
     ChangeUsername,
@@ -20,7 +19,12 @@ const {
     DeleteUser,
     MarkFavorite,
     UnmarkFavorite,
-    GetAllFavorites
+    GetAllFavorites,
+    GetNormalProductTab,
+    GetSplitProductTab,
+    CreateNormalCategoryTabs,
+    GetNormalCategoryTab,
+    GetSplitCategoryTab
 } = require('./controller')
 const VerifyToken = require('./verify-token')
 const VerifyRole = require('./verify-role')
@@ -57,14 +61,12 @@ router.route('/category')
 .post(VerifyToken, VerifyRole('admin'), CreateCategory)
 .get(GetCategories)
 
-router.route('/normal-product-tab').post(VerifyToken, VerifyRole('admin'), CreateNormalTabs)
+router.route('/normal-product-tab').post(VerifyToken, VerifyRole('admin'), CreateNormalTabs).get(GetNormalProductTab)
 
-router.route('/split-product-tab').post(VerifyToken, VerifyRole('admin'), CreateSplitProductTab)
+router.route('/split-product-tab').post(VerifyToken, VerifyRole('admin'), CreateSplitProductTab).get(GetSplitProductTab)
 
-router.route('/normal-category-tab').post(VerifyToken, VerifyRole('admin'), CreateNormalTabs)
+router.route('/normal-category-tab').post(VerifyToken, VerifyRole('admin'), CreateNormalCategoryTabs).get(GetNormalCategoryTab)
 
-router.route('/split-category-tab').post(VerifyToken, VerifyRole('admin'), CreateSplitCategoryTab)
-
-router.route('/get-tab').post(GetAllTabsByType)
+router.route('/split-category-tab').post(VerifyToken, VerifyRole('admin'), CreateSplitCategoryTab).get(GetSplitCategoryTab)
 
 module.exports = router

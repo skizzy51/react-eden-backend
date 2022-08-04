@@ -18,7 +18,12 @@ const {
     deleteUser,
     markFavorite,
     unmarkFavorite,
-    getAllFavorites
+    getAllFavorites,
+    getNormalProductTab,
+    getSplitProductTab,
+    createNormalCategoryTabs,
+    getNormalCategoryTabs,
+    getSplitCategoryTab
 } = require('./repository')
 
 const HTTPStatus = require("http-status");
@@ -264,20 +269,19 @@ async function GetCategories (req, res, next) {
 
 async function CreateNormalTabs (req, res, next) {
     try {
-        const { tabType, tabItem } = req.body
-        const tab = await createNormalTabs(tabType, tabItem)
+        const { tabName, items } = req.body
+        const tab = await createNormalTabs(tabName, items)
         tab
-        ? Success(res, tab)
+        ? Created(res, tab)
         : Failure(res, HTTPStatus.FAILED_DEPENDENCY, 'Tab not created')
     } catch (error) {
         next(error)
     }
 }
 
-async function GetAllTabsByType (req, res, next) {
+async function GetNormalProductTab (req, res, next) {
     try {
-        const { tabType } = req.body
-        const tabs = await getAllTabsByType(tabType)
+        const tabs = await getNormalProductTab()
         tabs.length > 0
         ? Success(res, 'Tabs', tabs)
         : Failure(res, HTTPStatus.NOT_FOUND, 'Tabs not found')
@@ -288,8 +292,8 @@ async function GetAllTabsByType (req, res, next) {
 
 async function CreateSplitProductTab (req, res, next) {
     try {
-        const { tabType, tabItem } = req.body
-        const tab =  await createSplitProductTab(tabType, tabItem)
+        const { tab1, tab2 } = req.body
+        const tab =  await createSplitProductTab(tab1, tab2)
         tab != null
         ? Created(res, tab)
         : res.status(405).json('You cannot add more split product tabs')
@@ -298,13 +302,58 @@ async function CreateSplitProductTab (req, res, next) {
     }
 }
 
+async function GetSplitProductTab (req, res, next) {
+    try {
+        const tabs = await getSplitProductTab()
+        tabs.length > 0
+        ? Success(res, 'Tabs', tabs)
+        : Failure(res, HTTPStatus.NOT_FOUND, 'Tabs not found')
+    } catch (error) {
+        next(error)
+    }
+}
+
+async function CreateNormalCategoryTabs (req, res, next) {
+    try {
+        const { tabName, category } = req.body
+        const tab = await createNormalCategoryTabs(tabName, category)
+        tab
+        ? Created(res, tab)
+        : Failure(res, HTTPStatus.FAILED_DEPENDENCY, 'Tab not created')
+    } catch (error) {
+        next(error)
+    }
+}
+
+async function GetNormalCategoryTab (req, res, next) {
+    try {
+        const tabs = await getNormalCategoryTabs()
+        tabs.length > 0
+        ? Success(res, 'Tabs', tabs)
+        : Failure(res, HTTPStatus.NOT_FOUND, 'Tabs not found')
+    } catch (error) {
+        next(error)
+    }
+}
+
 async function CreateSplitCategoryTab (req, res, next) {
     try {
-        const { tabType, tabItem } = req.body
-        const tab =  await createSplitCategoryTab(tabType, tabItem)
+        const { categories, images } = req.body
+        const tab =  await createSplitCategoryTab(categories, images)
         tab != null
         ? Created(res, tab)
         : res.status(405).json('You cannot add more split category tabs')
+    } catch (error) {
+        next(error)
+    }
+}
+
+async function GetSplitCategoryTab (req, res, next) {
+    try {
+        const tabs = await getSplitCategoryTab()
+        tabs.length > 0
+        ? Success(res, 'Tabs', tabs)
+        : Failure(res, HTTPStatus.NOT_FOUND, 'Tabs not found')
     } catch (error) {
         next(error)
     }
@@ -328,7 +377,11 @@ module.exports = {
     CreateCategory,
     GetCategories,
     CreateNormalTabs,
-    GetAllTabsByType,
+    GetNormalProductTab,
     CreateSplitProductTab,
-    CreateSplitCategoryTab
+    GetSplitProductTab,
+    CreateNormalCategoryTabs,
+    GetNormalCategoryTab,
+    CreateSplitCategoryTab,
+    GetSplitCategoryTab
 }

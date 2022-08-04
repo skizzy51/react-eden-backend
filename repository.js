@@ -1,7 +1,10 @@
 const User = require('./models/user')
 const Item = require('./models/item')
 const Category = require('./models/category')
-const Tab = require('./models/tabs')
+const NormalProductTab = require('./models/normal-product-tab')
+const SplitProductTab = require('./models/split-product-tab')
+const NormalCategoryTab = require('./models/normal-category-tab')
+const SplitCategoryTab = require('./models/split-category-tab')
 
 
 async function createItem (name, price, images = [], tags = [], description) {
@@ -180,9 +183,9 @@ async function getCategories () {
     }
 }
 
-async function createNormalTabs (tabType, tabItem = {}) {
+async function createNormalTabs (tabName, items = []) {
     try {
-        const tab = new Tab({ tabType, tabItem })
+        const tab = new NormalProductTab({ tabName, items })
         await tab.save()
         return tab
     } catch (error) {
@@ -190,19 +193,19 @@ async function createNormalTabs (tabType, tabItem = {}) {
     }
 }
 
-async function getAllTabsByType (tabType) {
+async function getNormalProductTab () {
     try {
-        const tabs = await Tab.where('tabType').equals(tabType)
+        const tabs = await NormalProductTab.find({}).populate('items')
         return tabs
     } catch (error) {
         throw error
     }
 }
 
-async function createSplitProductTab (tabType, tabItem = {}) {
+async function createSplitProductTab (tab1, tab2) {
     try {
-        const tab = new Tab({ tabType, tabItem })
-        const allSplitProd  = await Tab.where('tabType').equals(tabType)
+        const tab = new SplitProductTab({ tab1, tab2 })
+        const allSplitProd  = await SplitProductTab.find({})
         if (allSplitProd.length >= 2) {
             return null
         }
@@ -213,15 +216,52 @@ async function createSplitProductTab (tabType, tabItem = {}) {
     }
 }
 
-async function createSplitCategoryTab (tabType, tabItem = {}) {
+async function getSplitProductTab () {
     try {
-        const tab = new Tab({ tabType, tabItem })
-        const allSplitProd  = await Tab.where('tabType').equals(tabType)
+        const tabs = await SplitProductTab.find({}).populate('items')
+        return tabs
+    } catch (error) {
+        throw error
+    }
+}
+
+async function createNormalCategoryTabs (tabName, category) {
+    try {
+        const tab = new NormalCategoryTab({ tabName, category })
+        await tab.save()
+        return tab
+    } catch (error) {
+        throw error
+    }
+}
+
+async function getNormalCategoryTabs () {
+    try {
+        const tabs = await NormalCategoryTab.find({}).populate('category')
+        return tabs
+    } catch (error) {
+        throw error
+    }
+}
+
+async function createSplitCategoryTab (categories, images) {
+    try {
+        const tab = new SplitCategoryTab({ categories, images })
+        const allSplitProd  = await SplitCategoryTab.find({})
         if (allSplitProd.length >= 1) {
             return null
         }
         await tab.save()
         return tab
+    } catch (error) {
+        throw error
+    }
+}
+
+async function getSplitCategoryTab () {
+    try {
+        const tabs = await SplitCategoryTab.find({}).populate('categories')
+        return tabs
     } catch (error) {
         throw error
     }
@@ -245,7 +285,11 @@ module.exports = {
     createCategory,
     getCategories,
     createNormalTabs,
-    getAllTabsByType,
+    getNormalProductTab,
     createSplitProductTab,
+    getSplitProductTab,
+    createNormalCategoryTabs,
+    getNormalCategoryTabs,
+    getSplitCategoryTab,
     createSplitCategoryTab
 }
