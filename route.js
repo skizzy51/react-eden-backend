@@ -59,18 +59,12 @@ router.route('/category')
 
 router.route('/normal-product-tab').post(VerifyToken, VerifyRole('admin'), CreateNormalTabs)
 
-router.route('/normal-product-tab/get').post(GetAllTabsByType)
-
 router.route('/split-product-tab').post(VerifyToken, VerifyRole('admin'), CreateSplitProductTab)
-
-router.route('/split-product-tab/get').post(GetAllTabsByType)
 
 router.route('/normal-category-tab').post(VerifyToken, VerifyRole('admin'), CreateNormalTabs)
 
-router.route('/normal-category-tab/get').post(GetAllTabsByType)
-
 router.route('/split-category-tab').post(VerifyToken, VerifyRole('admin'), CreateSplitCategoryTab)
 
-router.route('/split-category-tab/get').post(GetAllTabsByType)
+router.route('/get-tab').post(GetAllTabsByType)
 
 module.exports = router
