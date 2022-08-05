@@ -237,7 +237,12 @@ async function createNormalCategoryTabs (category) {
 
 async function getNormalCategoryTabs () {
     try {
-        const tabs = await NormalCategoryTab.find({}).populate('category.items')
+        const tabs = await NormalCategoryTab.find({}).populate({
+            path : 'category',
+            populate : {
+                path : 'items'
+            }
+        })
         return tabs
     } catch (error) {
         throw error
