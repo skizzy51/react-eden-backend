@@ -260,7 +260,12 @@ async function createSplitCategoryTab (categories, images) {
 
 async function getSplitCategoryTab () {
     try {
-        const tabs = await SplitCategoryTab.find({}).populate('categories')
+        const tabs = await SplitCategoryTab.find({}).populate('categories').populate({
+            path : 'categories',
+            populate : {
+                path : 'items'
+            }
+        })
         return tabs
     } catch (error) {
         throw error
