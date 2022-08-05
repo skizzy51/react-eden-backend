@@ -67,6 +67,6 @@ router.route('/split-product-tab').post(VerifyToken, VerifyRole('admin'), Create
 
 router.route('/normal-category-tab').post(VerifyToken, VerifyRole('admin'), CreateNormalCategoryTabs).get(GetNormalCategoryTab)
 
-router.route('/split-category-tab').post(VerifyToken, VerifyRole('admin'), CreateSplitCategoryTab).get(GetSplitCategoryTab)
+router.route('/split-category-tab').post(VerifyToken, VerifyRole('admin'), UploadMiddleware, CreateSplitCategoryTab).get(GetSplitCategoryTab)
 
 module.exports = router
