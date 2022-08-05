@@ -11,7 +11,6 @@ const {
     createCategory,
     getCategories,
     createNormalTabs,
-    getAllTabsByType,
     createSplitProductTab,
     createSplitCategoryTab,
     getUserById,
@@ -49,7 +48,7 @@ async function CreateItem (req, res, next) {
         req.files.forEach(file => {
             let image = {
                 fileName : file.filename,
-                filePath : `https://steve-commerce-app.herokuapp.com/shop/${file.filename}`,
+                filePath : `https://eden-react-backend.herokuapp.com/shop/${file.filename}`,
                 fileType : file.mimetype
             }
             images.push(image)
@@ -338,7 +337,16 @@ async function GetNormalCategoryTab (req, res, next) {
 
 async function CreateSplitCategoryTab (req, res, next) {
     try {
-        const { categories, images } = req.body
+        const { categories } = req.body
+        let images = []
+        req.files.forEach(file => {
+            let image = {
+                fileName : file.filename,
+                filePath : `https://eden-react-backend.herokuapp.com/shop/${file.filename}`,
+                fileType : file.mimetype
+            }
+            images.push(image)
+        })
         const tab =  await createSplitCategoryTab(categories, images)
         tab != null
         ? Created(res, tab)
