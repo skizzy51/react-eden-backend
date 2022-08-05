@@ -218,7 +218,7 @@ async function createSplitProductTab (tab1, tab2) {
 
 async function getSplitProductTab () {
     try {
-        const tabs = await SplitProductTab.find({}).populate('items')
+        const tabs = await SplitProductTab.find({}).populate('tab1.items').populate('tab2.items')
         return tabs
     } catch (error) {
         throw error
