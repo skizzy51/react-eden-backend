@@ -315,8 +315,8 @@ async function GetSplitProductTab (req, res, next) {
 
 async function CreateNormalCategoryTabs (req, res, next) {
     try {
-        const { tabName, category } = req.body
-        const tab = await createNormalCategoryTabs(tabName, category)
+        const { category } = req.body
+        const tab = await createNormalCategoryTabs(category)
         tab
         ? Created(res, tab)
         : Failure(res, HTTPStatus.FAILED_DEPENDENCY, 'Tab not created')

@@ -225,9 +225,9 @@ async function getSplitProductTab () {
     }
 }
 
-async function createNormalCategoryTabs (tabName, category) {
+async function createNormalCategoryTabs (category) {
     try {
-        const tab = new NormalCategoryTab({ tabName, category })
+        const tab = new NormalCategoryTab({ category })
         await tab.save()
         return tab
     } catch (error) {
