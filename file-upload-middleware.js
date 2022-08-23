@@ -14,18 +14,18 @@ const storage = multer.diskStorage({
 const uploader = multer({
     storage,
     limits : {
-        fileSize : 7000000 //7mb
+        fileSize : 10000000 //10mb
     },
     fileFilter: (req, file, cb) => {
         const fileext = file.originalname.split(".");
         if (
-          file.size >= 7000000 ||
+          file.size >= 10000000 ||
           !["jpg", "jpeg", "png", "svg", "jfif"].includes(
-            fileext[fileext.length - 1]
+            fileext[fileext.length - 1].toLowerCase()
           )
         ) {
           const err = new Error(
-            "Please upload an JPG/JPEG/PNG/SVG/JFIF file less than 5mb"
+            "Please upload a JPG/JPEG/PNG/SVG/JFIF file less than 10mb"
           );
           err.name = "custom";
           err.status = 400;

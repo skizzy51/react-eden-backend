@@ -25,6 +25,7 @@ const {
     getSplitCategoryTab
 } = require('./repository')
 
+const fs = require('fs')
 const HTTPStatus = require("http-status");
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcryptjs')
@@ -101,9 +102,16 @@ async function DeleteItem (req, res, next) {
     try {
         const {id} = req.body
         const item = await deleteItem(id)
-        item
-        ? Success(res, 'Item deleted', item)
-        : Failure(res, HTTPStatus.NOT_IMPLEMENTED, 'Item not deleted', item)
+        if (item) {
+            item.images.forEach(image => {
+                fs.unlink(`images/${image.fileName}`, (err)=>{
+                    if (err) throw err
+                })
+            })
+            Success(res, 'Item deleted', item)
+        }else{
+            Failure(res, HTTPStatus.NOT_IMPLEMENTED, 'Item not deleted', item)
+        }
     } catch (error) {
         next(error)
     }
@@ -350,7 +358,7 @@ async function CreateSplitCategoryTab (req, res, next) {
         const tab =  await createSplitCategoryTab(categories, images)
         tab != null
         ? Created(res, tab)
-        : res.status(405).json('You cannot add more split category tabs')
+        : res.json('You cannot add more split category tabs')
     } catch (error) {
         next(error)
     }

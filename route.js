@@ -45,7 +45,8 @@ router.route('/update/password').post(VerifyToken, ChangePassword)
 router.route('/item')
 .post(VerifyToken, VerifyRole('admin'), UploadMiddleware, CreateItem)
 .get(GetAllItems)
-.delete(VerifyToken, VerifyRole('admin'), DeleteItem)
+
+router.route('/item/delete').post(VerifyToken, VerifyRole('admin'), DeleteItem)
 
 router.route('/item/get').post(GetItem)
 

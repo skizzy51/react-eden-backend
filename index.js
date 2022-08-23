@@ -5,7 +5,7 @@ const mongoose = require("mongoose")
 const cors = require("cors")
 const routes = require("./route")
 
-mongoose.connect("mongodb+srv://skizzy51:naruto4life@cluster0.jji7d.mongodb.net/ShoppingApp?retryWrites=true&w=majority", (e) => {
+mongoose.connect(`mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@cluster0.jji7d.mongodb.net/ShoppingApp?retryWrites=true&w=majority`, (e) => {
   if (e) {
     console.log("error", e)
     return;
@@ -17,7 +17,7 @@ const app = express()
 
 
 app.use(cors())
-app.use(json({ limit: "5mb" }))
+app.use(json({ limit: "10mb" }))
 app.use("/shop", express.static("images"), routes)
 app.use(function (err, req, res, next) {
   console.log(err);
