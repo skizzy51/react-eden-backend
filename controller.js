@@ -127,7 +127,7 @@ async function CreateUser (req, res, next) {
             return
         }
         const token = jwt.sign({ id : user._id }, Cipher, { expiresIn : '1h' })
-        res.status(HTTPStatus.CREATED).json({ message : 'User Created and signed in', token : token })
+        res.status(HTTPStatus.CREATED).json({ message : 'User Created and signed in', token : token, user })
     } catch (error) {
         next(error)
     }
@@ -143,7 +143,7 @@ async function LoginUser (req, res, next) {
         }
         if (await bcrypt.compare(password, user.password)){
             const token = jwt.sign({ id : user._id }, Cipher, { expiresIn : '1h' })
-            res.json({ message : 'logged in', token : token })
+            res.json({ message : 'logged in', token : token, user })
         }else{
             Failure(res, HTTPStatus.BAD_REQUEST, 'Invalid password')
             return
