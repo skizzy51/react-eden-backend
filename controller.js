@@ -219,7 +219,7 @@ async function MarkFavorite (req, res, next) {
         const { id } = req.body
         const fav = await markFavorite(user._id, id)
         fav != 'Already marked'
-        ? Success(res, 'Marked as favorite')
+        ? Success(res, 'Marked as favorite', id)
         : Failure(res, HTTPStatus.METHOD_NOT_ALLOWED)
     } catch (error) {
         next(error)
@@ -232,7 +232,7 @@ async function UnmarkFavorite (req, res, next) {
         const { id } = req.body
         const fav = await unmarkFavorite(user._id, id)
         fav != 'Already unmarked'
-        ? Success(res, 'Unmarked as favorite')
+        ? Success(res, 'Unmarked as favorite', id)
         : Failure(res, HTTPStatus.METHOD_NOT_ALLOWED)
     } catch (error) {
         next(error)
