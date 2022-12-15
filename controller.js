@@ -49,7 +49,7 @@ async function CreateItem (req, res, next) {
         req.files.forEach(file => {
             let image = {
                 fileName : file.filename,
-                filePath : `https://react-eden-backend.vercel.app/shop/${file.filename}`,
+                filePath : `https://eden-backend.onrender.com/shop/${file.filename}`,
                 fileType : file.mimetype
             }
             images.push(image)
@@ -350,7 +350,7 @@ async function CreateSplitCategoryTab (req, res, next) {
         req.files.forEach(file => {
             let image = {
                 fileName : file.filename,
-                filePath : `https://react-eden-backend.vercel.app/shop/${file.filename}`,
+                filePath : `https://eden-backend.onrender.com/shop/${file.filename}`,
                 fileType : file.mimetype
             }
             images.push(image)
