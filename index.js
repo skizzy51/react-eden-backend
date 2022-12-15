@@ -5,7 +5,7 @@ const cors = require("cors")
 const routes = require("./route")
 require('dotenv').config()
 
-mongoose.connect(`mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@cluster0.jji7d.mongodb.net/ShoppingApp?retryWrites=true&w=majority`, (e) => {
+mongoose.connect(`mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@cluster0.jji7d.mongodb.net/ShoppingApp?retryWrites=true&w=majority`, (e) => {
   if (e) {
     console.log("error", e)
     return;
